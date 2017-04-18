@@ -68,10 +68,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 		x_ = VectorXd(4);
 		VectorXd z_meas = VectorXd(3);
 		z_meas << measurement_pack.raw_measurements_(0), measurement_pack.raw_measurements_(1), measurement_pack.raw_measurements_(2);
-		float pho = z_meas(0);
-		float phi = z_meas(1);
-		float px = pho * cos(phi);
-		float py = pho * sin(phi);
+		double pho = z_meas(0);
+		double phi = z_meas(1);
+		double px = pho * cos(phi);
+		double py = pho * sin(phi);
 		x_ <<px, py, 0.0, 0.0;
 		ekf_.Init(x_, P_, F_, Hj_, R_radar_, Q_);
 		previous_timestamp_ = measurement_pack.timestamp_;
@@ -106,7 +106,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
   //compute the time elapsed between the current and previous measurements
-  float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
+  double dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;	//dt - expressed in seconds
   previous_timestamp_ = measurement_pack.timestamp_;
 
   // TODO: YOUR CODE HERE

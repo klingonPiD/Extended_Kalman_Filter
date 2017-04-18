@@ -37,13 +37,14 @@ void KalmanFilter::Update(const VectorXd &z) {
 
 	//new estimate
 	x_ = x_ + (K * y);
-	long long x_size = x_.size();
+	unsigned long x_size = x_.size();
 	MatrixXd I = MatrixXd::Identity(x_size, x_size);
 	P_ = (I - K * H_) * P_;
 }
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	//Get jacobian Hj
+	double minThresh = 0.0001;
 	Tools tools;
 	MatrixXd Hj = tools.CalculateJacobian(x_);
 
@@ -51,14 +52,14 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	VectorXd h_x(3);
 	h_x << 0.0, 0.0, 0.0;
 	//recover state parameters
-	float px = (fabs(x_(0)) < FLT_EPSILON) ? FLT_EPSILON : x_(0);
-	float py = (fabs(x_(1)) < FLT_EPSILON) ? FLT_EPSILON : x_(1);
-	float vx = x_(2);
-	float vy = x_(3);
+	double px = (fabs(x_(0)) < minThresh) ? minThresh : x_(0);
+	double py = (fabs(x_(1)) < minThresh) ? minThresh : x_(1);
+	double vx = x_(2);
+	double vy = x_(3);
 
 	//compute h_x
-	h_x[0] = sqrt(pow(px, 2) + pow(py, 2));
-	if(h_x[0] < FLT_EPSILON)
+	h_x[0] = sqrt(px*px + py*py);
+	if(h_x[0] < minThresh)
 	{
 		cerr << "Error - KalmanFilter::UpdateEKF - division by zeros" << endl;
 	}
@@ -78,7 +79,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	//Conversion back to polar co-ordinates not required since Kalman gain K
 	//implicitly handles this for us
 	x_ = x_ + (K * y);
-	long long x_size = x_.size();
+	unsigned long x_size = x_.size();
 	MatrixXd I = MatrixXd::Identity(x_size, x_size);
 	P_ = (I - K * Hj) * P_;
 

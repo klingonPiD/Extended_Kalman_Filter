@@ -32,7 +32,7 @@ The general flow of the implementation is shown in the picture below.
 ![Implementation flow](sensor_fusion_implementation.png)
 
 # Results
-The extended Kalman filter (EKF)  was tested on the datasets provided by Udacity and evluation metric used was RMSE (Root Mean Squared Error) between the predicted states and the provided ground truth values.
+The extended Kalman filter (EKF)  was tested on the datasets provided by Udacity and evaluation metric used was RMSE (Root Mean Squared Error) between the predicted states and the provided ground truth values.
 The RMSE for dataset 1 was [0.06, 0.06, 0.54, 0.54] and the visualization is shown below
 ![Data1](data1.png)
 The RMSE for dataset 2 was [0.18, 0.19, 0.47, 0.80] and the visualization is shown below

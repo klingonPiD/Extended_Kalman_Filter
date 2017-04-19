@@ -71,7 +71,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 	double dphidvx = 0.0;
 	double dphidvy = 0.0;
 
-	den = pow((pow(px, 2) + pow(py, 2)), 3.0 / 2.0);
+	den = pow(den, 3.0 / 2.0);
 	double dprdpx = (vx*py - vy*px)*py / den;
 	double dprdpy = (vy*px - vx*py)*px / den;
 	double dprdvx = dpdpx;
